@@ -8,6 +8,8 @@ export default function Home() {
       <Link href="/forms">
         <Button>Create Form</Button>
       </Link>
+      <Button>Register</Button>
+      <Button>Login</Button>
     </div>
   );
 }
