@@ -1,3 +1,4 @@
+import RegisterDialog from "@/components/RegisterDialog";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +9,7 @@ export default function Home() {
       <Link href="/forms">
         <Button>Create Form</Button>
       </Link>
-      <Button>Register</Button>
+      <RegisterDialog />
       <Button>Login</Button>
     </div>
   );

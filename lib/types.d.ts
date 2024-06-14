@@ -9,3 +9,9 @@ export interface FormDetails {
   title: string;
   questions: Question[];
 }
+
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+}
