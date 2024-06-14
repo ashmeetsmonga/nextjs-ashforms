@@ -20,3 +20,16 @@ export interface LoginPayload {
   email: string;
   password: string;
 }
+
+export interface TokenPayload {
+  id: string;
+  email: string;
+  exp: number;
+  iat: number;
+  sub: string;
+}
+
+export interface CreateFormPayload {
+  title: string;
+  questions: string;
+}

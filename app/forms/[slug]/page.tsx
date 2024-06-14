@@ -1,8 +1,10 @@
 "use client";
 
+import { createForm } from "@/app/actions/formActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormDetails, Question } from "@/lib/types";
+import { CreateFormPayload, FormDetails, Question } from "@/lib/types";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const page = () => {
@@ -10,6 +12,8 @@ const page = () => {
     title: "",
     questions: [],
   });
+
+  const router = useRouter();
 
   const addTextQuestion = () => {
     const newFormDetails = { ...formDetails };
@@ -25,6 +29,19 @@ const page = () => {
     const newFormDetails = { ...formDetails };
     if (key !== "options") newFormDetails.questions[idx][key as keyof Question] = value as any;
     setFormDetails(newFormDetails);
+  };
+
+  const handleSubmit = () => {
+    const payload: CreateFormPayload = {
+      title: formDetails.title,
+      questions: JSON.stringify(formDetails.questions),
+    };
+
+    createForm(payload)
+      .then((data) => {
+        router.push("/forms");
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -45,7 +62,7 @@ const page = () => {
             <Input placeholder="Enter the placeholder" value={ques.placeholder} className="text-muted-foreground" onChange={(e) => handleInputChange(e.target.value, idx, "placeholder")} />
           </div>
         ))}
-        <Button className="w-fit" onClick={() => console.log(formDetails)}>
+        <Button className="w-fit" onClick={handleSubmit}>
           Create Form
         </Button>
       </div>
