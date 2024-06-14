@@ -7,9 +7,13 @@ import { Input } from "./ui/input";
 import { LoginPayload } from "@/lib/types";
 import { loginUser } from "@/app/actions/userActions";
 import { useRouter } from "next/navigation";
+import { useRecoilState } from "recoil";
+import { userAtom } from "@/app/recoil/atom/userAtom";
 
 const LoginDialog = () => {
   const router = useRouter();
+  const [_, setUserState] = useRecoilState(userAtom);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -19,8 +23,8 @@ const LoginDialog = () => {
     };
     for (let [key, value] of formData.entries()) payload[key as keyof LoginPayload] = value as string;
     loginUser(payload)
-      .then((data) => {
-        console.log(data);
+      .then((data: any) => {
+        setUserState(data.data);
         router.push("/forms");
       })
       .catch((e) => console.log(e));
