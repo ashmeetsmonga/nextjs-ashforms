@@ -1,3 +1,4 @@
+import LoginDialog from "@/components/LoginDialog";
 import RegisterDialog from "@/components/RegisterDialog";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -10,7 +11,7 @@ export default function Home() {
         <Button>Create Form</Button>
       </Link>
       <RegisterDialog />
-      <Button>Login</Button>
+      <LoginDialog />
     </div>
   );
 }
