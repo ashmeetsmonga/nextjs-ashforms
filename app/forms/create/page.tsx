@@ -10,7 +10,7 @@ const page = () => {
     questions: [],
   });
 
-  return <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} />;
+  return <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="create" />;
 };
 
 export default page;

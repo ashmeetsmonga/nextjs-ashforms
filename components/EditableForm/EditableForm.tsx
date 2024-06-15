@@ -1,9 +1,9 @@
 "use client";
 
-import { createForm } from "@/app/actions/formActions";
+import { createForm, updateForm } from "@/app/actions/formActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CreateFormPayload, FormDetails, Question } from "@/lib/types";
+import { CreateFormPayload, FormDetails, Question, UpdateFormPayload } from "@/lib/types";
 import { Circle, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
@@ -11,8 +11,10 @@ import React, { FC, useState } from "react";
 interface EditableFormProps {
   formDetails: FormDetails;
   setFormDetails: React.Dispatch<React.SetStateAction<FormDetails>>;
+  mode: string;
+  id?: string;
 }
-const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails }) => {
+const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode, id }) => {
   const router = useRouter();
 
   const addTextQuestion = () => {
@@ -54,9 +56,41 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails }) =>
       .catch((e) => console.log(e));
   };
 
+  const handleUpdateSubmit = () => {
+    const payload: UpdateFormPayload = {
+      id: id!,
+      title: formDetails.title,
+      questions: JSON.stringify(formDetails.questions),
+    };
+
+    updateForm(payload)
+      .then((data) => {
+        router.push("/forms");
+      })
+      .catch((e) => console.log(e));
+  };
+
   const handleDelete = (idx: number) => {
     const newFormDetails = { ...formDetails };
     newFormDetails.questions.splice(idx, 1);
+    setFormDetails(newFormDetails);
+  };
+
+  const addNewRadioOption = (questionIdx: number) => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions[questionIdx].options?.push("");
+    setFormDetails(newFormDetails);
+  };
+
+  const handleRadioOptionChange = (value: string, optionIdx: number, questionIdx: number) => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions[questionIdx].options![optionIdx] = value;
+    setFormDetails(newFormDetails);
+  };
+
+  const deleteRadioOption = (optionIdx: number, questionIdx: number) => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions[questionIdx].options?.splice(optionIdx, 1);
     setFormDetails(newFormDetails);
   };
 
@@ -85,24 +119,31 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails }) =>
             {ques.type === "radio" && (
               <div className="flex flex-col gap-2 flex-1">
                 <Input placeholder="Enter the question" value={ques.title} onChange={(e) => handleInputChange(e.target.value, idx, "title")} />
-                {ques.options?.map((option, idx) => (
-                  <div key={idx} className="flex gap-2 items-center">
-                    {idx === 0 ? (
-                      <Plus size={28} className="text-muted-foreground hover:text-black cursor-pointer transition-colors" />
+                {ques.options?.map((option, optionIdx) => (
+                  <div key={optionIdx} className="flex gap-2 items-center">
+                    {optionIdx === 0 ? (
+                      <Plus size={28} className="text-muted-foreground hover:text-black cursor-pointer transition-colors" onClick={() => addNewRadioOption(idx)} />
                     ) : (
-                      <Trash2 className="mt-2 text-muted-foreground hover:text-black cursor-pointer transition-colors" />
+                      <Trash2 className="ml-1 text-muted-foreground hover:text-black cursor-pointer transition-colors" onClick={() => deleteRadioOption(optionIdx, idx)} />
                     )}
                     <Circle />
-                    <Input placeholder="Enter Option" />
+                    <Input placeholder="Enter Option" value={option} onChange={(e) => handleRadioOptionChange(e.target.value, optionIdx, idx)} />
                   </div>
                 ))}
               </div>
             )}
           </div>
         ))}
-        <Button className="w-fit" onClick={handleSubmit}>
-          Create Form
-        </Button>
+        {mode === "create" && (
+          <Button className="w-fit" onClick={handleSubmit}>
+            Create Form
+          </Button>
+        )}
+        {mode === "edit" && (
+          <Button className="w-fit" onClick={handleUpdateSubmit}>
+            Update Form
+          </Button>
+        )}
       </div>
     </div>
   );

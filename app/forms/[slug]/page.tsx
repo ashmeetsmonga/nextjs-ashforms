@@ -14,7 +14,7 @@ const page = ({ params }: { params: { slug: string } }) => {
     questions: JSON.parse(selectedForm.questions),
   });
 
-  return <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} />;
+  return <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="edit" id={params.slug} />;
 };
 
 export default page;
