@@ -4,7 +4,7 @@ import { createForm, updateForm } from "@/app/actions/formActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CreateFormPayload, FormDetails, Question, UpdateFormPayload } from "@/lib/types";
-import { Circle, Plus, Trash2 } from "lucide-react";
+import { Circle, Plus, Square, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
 
@@ -32,6 +32,16 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
     newFormDetails.questions.push({
       title: "",
       type: "radio",
+      options: [""],
+    });
+    setFormDetails(newFormDetails);
+  };
+
+  const addCheckboxQuestion = () => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions.push({
+      title: "",
+      type: "checkbox",
       options: [""],
     });
     setFormDetails(newFormDetails);
@@ -94,6 +104,24 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
     setFormDetails(newFormDetails);
   };
 
+  const addNewCheckboxOption = (questionIdx: number) => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions[questionIdx].options?.push("");
+    setFormDetails(newFormDetails);
+  };
+
+  const handleCheckboxOptionChange = (value: string, optionIdx: number, questionIdx: number) => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions[questionIdx].options![optionIdx] = value;
+    setFormDetails(newFormDetails);
+  };
+
+  const deleteCheckboxOption = (optionIdx: number, questionIdx: number) => {
+    const newFormDetails = { ...formDetails };
+    newFormDetails.questions[questionIdx].options?.splice(optionIdx, 1);
+    setFormDetails(newFormDetails);
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <Input
@@ -103,7 +131,7 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
         type="text"
         onChange={(e) => setFormDetails((prev) => ({ ...prev, title: e.target.value }))}
       />
-      <Button className="w-fit" variant="outline" onClick={addRadioQuestion}>
+      <Button className="w-fit" variant="outline" onClick={addCheckboxQuestion}>
         Add Question
       </Button>
       <div className="flex flex-col gap-4">
@@ -128,6 +156,22 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
                     )}
                     <Circle />
                     <Input placeholder="Enter Option" value={option} onChange={(e) => handleRadioOptionChange(e.target.value, optionIdx, idx)} />
+                  </div>
+                ))}
+              </div>
+            )}
+            {ques.type === "checkbox" && (
+              <div className="flex flex-col gap-2 flex-1">
+                <Input placeholder="Enter the question" value={ques.title} onChange={(e) => handleInputChange(e.target.value, idx, "title")} />
+                {ques.options?.map((option, optionIdx) => (
+                  <div key={optionIdx} className="flex gap-2 items-center">
+                    {optionIdx === 0 ? (
+                      <Plus size={28} className="text-muted-foreground hover:text-black cursor-pointer transition-colors" onClick={() => addNewCheckboxOption(idx)} />
+                    ) : (
+                      <Trash2 className="ml-1 text-muted-foreground hover:text-black cursor-pointer transition-colors" onClick={() => deleteCheckboxOption(optionIdx, idx)} />
+                    )}
+                    <Square />
+                    <Input placeholder="Enter Option" value={option} onChange={(e) => handleCheckboxOptionChange(e.target.value, optionIdx, idx)} />
                   </div>
                 ))}
               </div>
