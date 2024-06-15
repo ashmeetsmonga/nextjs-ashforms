@@ -9,3 +9,7 @@ export const createForm = (payload: CreateFormPayload) => {
 export const getFormsByUserID = () => {
   return axios.get("/api/auth/getforms");
 };
+
+export const deleteFormByID = (id: string) => {
+  return axios.delete(`/api/auth/deleteform?id=${id}`);
+};
