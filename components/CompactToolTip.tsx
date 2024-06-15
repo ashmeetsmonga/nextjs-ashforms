@@ -10,7 +10,9 @@ const CompactToolTip: FC<CompactToolTipProps> = ({ component, title }) => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>{component}</TooltipTrigger>
+        <TooltipTrigger className="cursor-pointer" asChild>
+          {component}
+        </TooltipTrigger>
         <TooltipContent>
           <p>{title}</p>
         </TooltipContent>

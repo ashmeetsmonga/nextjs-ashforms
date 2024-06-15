@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 const FormsPage = () => {
   return (
     <div>
-      <Link href={`forms/${crypto.randomUUID()}`}>
+      <Link href={`forms/create`}>
         <Button>Create New Form</Button>
       </Link>
       <FormsTable />

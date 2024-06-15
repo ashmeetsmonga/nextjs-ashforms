@@ -33,3 +33,18 @@ export interface CreateFormPayload {
   title: string;
   questions: string;
 }
+
+export interface UpdateFormPayload {
+  id: string;
+  title: string;
+  questions: string;
+}
+
+export interface FormDetailsPrisma {
+  id: string;
+  title: string;
+  questions: string;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  userId: string;
+}

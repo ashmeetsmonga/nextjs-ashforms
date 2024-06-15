@@ -1,8 +1,10 @@
+import { FormDetailsPrisma } from "@/lib/types";
 import { atom } from "recoil";
 
 export const formAtom = atom({
-  key: "formState",
+  key: "formRecoilState",
   default: {
+    forms: [] as FormDetailsPrisma[],
     deleteFormId: "",
   },
 });

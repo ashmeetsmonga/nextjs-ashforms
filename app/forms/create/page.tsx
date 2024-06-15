@@ -1,20 +1,16 @@
 "use client";
 
-import { updateForm } from "@/app/actions/formActions";
-import { formAtom } from "@/app/recoil/atom/formAtom";
+import { createForm } from "@/app/actions/formActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormDetails, Question, UpdateFormPayload } from "@/lib/types";
+import { CreateFormPayload, FormDetails, Question } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
 
-const page = ({ params }: { params: { slug: string } }) => {
-  const formRecoilState = useRecoilValue(formAtom);
-  const selectedForm = formRecoilState.forms.filter((form) => form.id === params.slug)[0];
+const page = () => {
   const [formDetails, setFormDetails] = useState<FormDetails>({
-    title: selectedForm.title,
-    questions: JSON.parse(selectedForm.questions),
+    title: "",
+    questions: [],
   });
 
   const router = useRouter();
@@ -36,13 +32,12 @@ const page = ({ params }: { params: { slug: string } }) => {
   };
 
   const handleSubmit = () => {
-    const payload: UpdateFormPayload = {
-      id: params.slug,
+    const payload: CreateFormPayload = {
       title: formDetails.title,
       questions: JSON.stringify(formDetails.questions),
     };
 
-    updateForm(payload)
+    createForm(payload)
       .then((data) => {
         router.push("/forms");
       })
@@ -68,7 +63,7 @@ const page = ({ params }: { params: { slug: string } }) => {
           </div>
         ))}
         <Button className="w-fit" onClick={handleSubmit}>
-          Update Form
+          Create Form
         </Button>
       </div>
     </div>
