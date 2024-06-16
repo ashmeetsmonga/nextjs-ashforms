@@ -8,7 +8,7 @@ interface CompactToolTipProps {
 
 const CompactToolTip: FC<CompactToolTipProps> = ({ component, title }) => {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger className="cursor-pointer" asChild>
           {component}

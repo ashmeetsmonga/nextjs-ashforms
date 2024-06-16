@@ -1,6 +1,8 @@
 "use client";
 
 import EditableForm from "@/components/EditableForm/EditableForm";
+import ViewForm from "@/components/ViewForm";
+import { Button } from "@/components/ui/button";
 import { FormDetails } from "@/lib/types";
 import React, { useState } from "react";
 
@@ -9,8 +11,14 @@ const page = () => {
     title: "",
     questions: [],
   });
+  const [previewForm, setPreviewForm] = useState(false);
 
-  return <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="create" />;
+  return (
+    <div>
+      <Button onClick={() => setPreviewForm((prev) => !prev)}>Preview</Button>
+      {!previewForm ? <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="create" /> : <ViewForm formDetails={formDetails} />}
+    </div>
+  );
 };
 
 export default page;

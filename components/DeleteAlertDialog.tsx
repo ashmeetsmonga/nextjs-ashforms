@@ -14,15 +14,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { formAtom } from "@/app/recoil/atom/formAtom";
-import { deleteFormByID } from "@/app/actions/formActions";
+import { deleteFormByID, getFormsByUserID } from "@/app/actions/formActions";
 
 const DeleteAlertDialog = ({ deleteAlertDialogRef }: { deleteAlertDialogRef: any }) => {
-  const [fd, setFd] = useRecoilState(formAtom);
+  const [formRecoilState, setFormRecoilState] = useRecoilState(formAtom);
 
   const handleDelete = () => {
-    deleteFormByID(fd.deleteFormId)
+    deleteFormByID(formRecoilState.deleteFormId)
       .then((data) => {
-        setFd((prev) => ({ ...prev, deleteFormId: "" }));
+        getFormsByUserID().then((data: any) => {
+          setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
+        });
       })
       .catch((e) => console.log(e));
   };
@@ -36,7 +38,7 @@ const DeleteAlertDialog = ({ deleteAlertDialogRef }: { deleteAlertDialogRef: any
           <AlertDialogDescription>This action cannot be undone. This will permanently delete this form and remove your data from our servers.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setFd((prev) => ({ ...prev, deleteFormId: "" }))}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={() => setFormRecoilState((prev) => ({ ...prev, deleteFormId: "" }))}>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

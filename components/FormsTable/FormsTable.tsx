@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { FilePenLine, Trash2 } from "lucide-react";
+import { ClipboardType, FilePenLine, Trash2 } from "lucide-react";
 import { getFormsByUserID } from "@/app/actions/formActions";
 import { formatDate } from "@/lib/utils";
 import DeleteAlertDialog from "../DeleteAlertDialog";
@@ -18,13 +18,12 @@ const FormsTable = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (formRecoilState.deleteFormId === "")
-      getFormsByUserID()
-        .then((data: any) => {
-          setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
-        })
-        .catch((e) => console.log(e));
-  }, [formRecoilState]);
+    getFormsByUserID()
+      .then((data: any) => {
+        setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   const handleDelete = (id: string) => {
     setFormRecoilState((prev) => ({ ...prev, deleteFormId: id }));
@@ -54,6 +53,7 @@ const FormsTable = () => {
               <TableCell className="flex gap-2">
                 <CompactToolTip component={<FilePenLine onClick={() => router.push(`/forms/${form.id}`)} />} title="Edit" />
                 <CompactToolTip component={<Trash2 onClick={() => handleDelete(form.id)} />} title="Delete" />
+                <CompactToolTip component={<ClipboardType onClick={() => router.push(`/view/${form.id}`)} />} title="View" />
               </TableCell>
             </TableRow>
           ))}
