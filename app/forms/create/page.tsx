@@ -16,7 +16,7 @@ const page = () => {
   return (
     <div>
       <Button onClick={() => setPreviewForm((prev) => !prev)}>Preview</Button>
-      {!previewForm ? <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="create" /> : <ViewForm formDetails={formDetails} />}
+      {!previewForm ? <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="create" /> : <ViewForm formDetails={formDetails} mode="preview" />}
     </div>
   );
 };

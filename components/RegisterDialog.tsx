@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 const RegisterDialog = () => {
   const router = useRouter();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

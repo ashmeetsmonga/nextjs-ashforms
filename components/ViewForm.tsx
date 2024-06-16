@@ -1,29 +1,54 @@
-import { FormDetails } from "@/lib/types";
+import { FormDetails, ResponsePayload } from "@/lib/types";
 import React, { FC } from "react";
 import { Input } from "./ui/input";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Checkbox } from "./ui/checkbox";
+import { Button } from "./ui/button";
+import { addResponse } from "@/app/actions/responseActions";
+import { useRouter } from "next/navigation";
 
 interface ViewFormProps {
   formDetails: FormDetails;
+  formId?: string;
+  mode: "preview" | "view";
 }
-const ViewForm: FC<ViewFormProps> = ({ formDetails }) => {
+const ViewForm: FC<ViewFormProps> = ({ formDetails, formId, mode }) => {
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const ansArray: any = [];
+    for (let [key, value] of formData.entries()) {
+      const idx = parseInt(key);
+      if (Array.isArray(ansArray[idx])) ansArray[idx].push(value as string);
+      else if (ansArray[idx]) ansArray[idx] = [ansArray[idx], value];
+      else ansArray.push(value);
+    }
+
+    const payload: ResponsePayload = {
+      formId: formId as string,
+      answers: JSON.stringify(ansArray),
+    };
+    addResponse(payload).then((data) => router.push("/"));
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-10">{formDetails.title}</h1>
-      <div className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         {formDetails.questions.map((ques, idx) => (
           <>
             {ques.type === "text" && (
               <div className="space-y-2">
                 <p className="font-semibold">{ques.title}</p>
-                <Input placeholder={ques.placeholder} />
+                <Input name={idx.toString()} placeholder={ques.placeholder} />
               </div>
             )}
             {ques.type === "radio" && (
               <div className="space-y-2">
                 <p className="font-semibold">{ques.title}</p>
-                <RadioGroup className="">
+                <RadioGroup name={idx.toString()}>
                   {ques.options?.map((option, idx) => (
                     <div key={option} className="flex gap-2 items-center">
                       <RadioGroupItem value={option} />
@@ -36,9 +61,9 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails }) => {
             {ques.type === "checkbox" && (
               <div className="space-y-2">
                 <p className="font-semibold">{ques.title}</p>
-                {ques.options?.map((option, idx) => (
+                {ques.options?.map((option, checkboxIdx) => (
                   <div key={option} className="flex gap-2 items-center">
-                    <Checkbox id={option} />
+                    <Checkbox name={idx.toString()} id={option} value={option} />
                     <label htmlFor={option}>{option}</label>
                   </div>
                 ))}
@@ -46,7 +71,9 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails }) => {
             )}
           </>
         ))}
-      </div>
+
+        {mode === "view" && <Button type="submit">Submit</Button>}
+      </form>
     </div>
   );
 };

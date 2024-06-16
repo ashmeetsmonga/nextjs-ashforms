@@ -48,3 +48,8 @@ export interface FormDetailsPrisma {
   updatedAt: DateTime;
   userId: string;
 }
+
+export interface ResponsePayload {
+  formId: string;
+  answers: string;
+}
