@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const userID = req.headers.get("userID");
 
     const { formId, answers } = await req.json();
-
+    console.log({ formId, answers, userId: userID! });
     const response = await prisma.response.create({
       data: { formId, answers, userId: userID! },
     });
