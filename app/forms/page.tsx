@@ -6,11 +6,13 @@ import React, { useEffect, useState } from "react";
 //Shows a list of forms user created along with button to create form
 const FormsPage = () => {
   return (
-    <div>
-      <Link href={`forms/create`}>
-        <Button>Create New Form</Button>
-      </Link>
-      <FormsTable />
+    <div className="flex flex-col items-center">
+      <div className="w-full max-w-[1000px] space-y-8">
+        <Link className="self-start" href={`forms/create`}>
+          <Button>Create New Form</Button>
+        </Link>
+        <FormsTable />
+      </div>
     </div>
   );
 };

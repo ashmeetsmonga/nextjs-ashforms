@@ -31,8 +31,8 @@ const FormsTable = () => {
   };
 
   return (
-    <>
-      <Table>
+    <div>
+      <Table className="border">
         <TableCaption>A list of your created forms</TableCaption>
         <TableHeader>
           <TableRow>
@@ -40,7 +40,7 @@ const FormsTable = () => {
             <TableHead>Title</TableHead>
             <TableHead>Created At</TableHead>
             <TableHead>Last Updated</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -60,7 +60,7 @@ const FormsTable = () => {
         </TableBody>
       </Table>
       <DeleteAlertDialog deleteAlertDialogRef={deleteAlertDialogRef} />
-    </>
+    </div>
   );
 };
 
