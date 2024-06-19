@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
-import { createToken } from "@/lib/token";
 
 export async function GET(req: NextRequest) {
   const userID = req.headers.get("userID");

@@ -1,7 +1,17 @@
 "use client";
 
-import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import React, { useEffect, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { LoginPayload } from "@/lib/types";
@@ -14,6 +24,12 @@ const LoginDialog = () => {
   const router = useRouter();
   const [_, setUserState] = useRecoilState(userAtom);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -25,27 +41,27 @@ const LoginDialog = () => {
     loginUser(payload)
       .then((data: any) => {
         setUserState(data.data);
-        router.push("/forms");
+        console.log(data.data, "ashmeet");
+        setIsOpen(false);
       })
       .catch((e) => console.log(e));
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Login</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Login</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
-          <Input name="email" placeholder="Email" />
-          <Input name="password" placeholder="Password" />
-          <Button>Login</Button>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <AlertDialog open={isOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Login</AlertDialogTitle>
+          <AlertDialogDescription asChild>
+            <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
+              <Input name="email" placeholder="Email" />
+              <Input name="password" placeholder="Password" />
+              <Button>Login</Button>
+            </form>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

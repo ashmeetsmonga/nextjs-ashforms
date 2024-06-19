@@ -7,12 +7,14 @@ import { getFormsByUserID } from "@/app/actions/formActions";
 import { formatDate } from "@/lib/utils";
 import DeleteAlertDialog from "../DeleteAlertDialog";
 import CompactToolTip from "../CompactToolTip";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { formAtom } from "@/app/recoil/atom/formAtom";
 import { useRouter } from "next/navigation";
+import { userAtom } from "@/app/recoil/atom/userAtom";
 
 const FormsTable = () => {
   const [formRecoilState, setFormRecoilState] = useRecoilState(formAtom);
+  const userRecoilState = useRecoilValue(userAtom);
   const deleteAlertDialogRef = useRef<HTMLDialogElement | null>(null);
 
   const router = useRouter();
@@ -23,7 +25,7 @@ const FormsTable = () => {
         setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [userRecoilState]);
 
   const handleDelete = (id: string) => {
     setFormRecoilState((prev) => ({ ...prev, deleteFormId: id }));

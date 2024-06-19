@@ -8,3 +8,7 @@ export const registerUser = (payload: RegisterPayload) => {
 export const loginUser = (payload: LoginPayload) => {
   return axios.post("/api/login", payload);
 };
+
+export const getUserDetails = (id: string) => {
+  return axios.get(`/api/userdetails?id=${id}`);
+};
