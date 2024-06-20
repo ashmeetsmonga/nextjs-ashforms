@@ -34,7 +34,6 @@ model Form {
   userId    String   @db.ObjectId
   responses Response[]
 
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

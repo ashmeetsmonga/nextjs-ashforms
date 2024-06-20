@@ -53,7 +53,7 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
     const payload: UpdateFormPayload = {
       id: id!,
       title: formDetails.title,
-      questions: JSON.stringify(formDetails.questions),
+      questions: formDetails.questions,
     };
 
     updateForm(payload)

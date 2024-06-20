@@ -1,4 +1,5 @@
 export interface Question {
+  id?: string;
   type: string;
   title: string;
   placeholder: string;
@@ -37,7 +38,7 @@ export interface CreateFormPayload {
 export interface UpdateFormPayload {
   id: string;
   title: string;
-  questions: string;
+  questions: Question[];
 }
 
 export interface FormDetailsPrisma {
