@@ -17,3 +17,7 @@ export const deleteFormByID = (id: string) => {
 export const updateForm = (payload: UpdateFormPayload) => {
   return axios.put("/api/auth/updateform", payload);
 };
+
+export const getFormByID = (id: string) => {
+  return axios.get(`/api/auth/getformbyid?id=${id}`);
+};
