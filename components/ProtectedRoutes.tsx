@@ -3,7 +3,7 @@
 import { userAtom } from "@/app/recoil/atom/userAtom";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import LoginDialog from "./LoginDialog";
+import LoginDialog from "./LoginRegisterDialog";
 
 const ProtectedRoutes = ({ children, isValidToken, userData }: { children: React.ReactNode; isValidToken: boolean; userData: any }) => {
   const [_, setUserRecoilState] = useRecoilState(userAtom);

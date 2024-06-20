@@ -1,5 +1,5 @@
 import FormsTable from "@/components/FormsTable/FormsTable";
-import LoginDialog from "@/components/LoginDialog";
+import LoginDialog from "@/components/LoginRegisterDialog";
 import { Button } from "@/components/ui/button";
 import { isValidToken } from "@/lib/utils";
 import { cookies } from "next/headers";

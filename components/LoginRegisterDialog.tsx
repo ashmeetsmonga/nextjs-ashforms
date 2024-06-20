@@ -23,7 +23,7 @@ import { useRecoilState } from "recoil";
 import { userAtom } from "@/app/recoil/atom/userAtom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
-const LoginDialog = () => {
+const LoginRegisterDialog = () => {
   const router = useRouter();
   const [_, setUserState] = useRecoilState(userAtom);
 
@@ -124,4 +124,4 @@ const LoginDialog = () => {
   );
 };
 
-export default LoginDialog;
+export default LoginRegisterDialog;
