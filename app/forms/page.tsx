@@ -8,11 +8,8 @@ import React, { useEffect, useState } from "react";
 
 //Shows a list of forms user created along with button to create form
 const FormsPage = async () => {
-  // const token = cookies().get("token")?.value;
-  // const isUserLoggedIn = await isValidToken(token as string);
   return (
     <>
-      {/* {!isUserLoggedIn && <LoginDialog />} */}
       <div className="flex flex-col items-center">
         <div className="w-full max-w-[1000px] space-y-8">
           <Link className="self-start" href={`forms/create`}>

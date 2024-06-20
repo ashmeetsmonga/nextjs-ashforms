@@ -1,18 +1,24 @@
 "use client";
 
-import { formAtom } from "@/app/recoil/atom/formAtom";
+import { getFormByID } from "@/app/actions/formActions";
 import ViewForm from "@/components/ViewForm";
 import { FormDetails } from "@/lib/types";
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
+import React, { useEffect, useState } from "react";
 
 const page = ({ params }: { params: { slug: string } }) => {
-  const formRecoilState = useRecoilValue(formAtom);
-  const selectedForm = formRecoilState.forms.filter((form) => form.id === params.slug)[0];
   const [formDetails, setFormDetails] = useState<FormDetails>({
-    title: selectedForm.title,
-    questions: JSON.parse(selectedForm.questions),
+    title: "",
+    questions: [],
   });
+
+  useEffect(() => {
+    getFormByID(params.slug).then((data: any) => {
+      setFormDetails({
+        title: data.data.form.title,
+        questions: data.data.questions,
+      });
+    });
+  }, []);
 
   return <ViewForm formDetails={formDetails} mode="view" formId={params.slug} />;
 };
