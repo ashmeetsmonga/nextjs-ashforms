@@ -20,7 +20,6 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
   const router = useRouter();
 
   const addNewQuestion = (type: string) => {
-    console.log(type, formDetails);
     const newFormDetails = { ...formDetails };
     newFormDetails.questions.push({
       title: "",
@@ -40,7 +39,7 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
   const handleSubmit = () => {
     const payload: CreateFormPayload = {
       title: formDetails.title,
-      questions: JSON.stringify(formDetails.questions),
+      questions: formDetails.questions,
     };
 
     createForm(payload)

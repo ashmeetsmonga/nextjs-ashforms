@@ -1,8 +1,8 @@
 export interface Question {
   type: string;
   title: string;
-  placeholder?: string;
-  options?: string[];
+  placeholder: string;
+  options: string[];
 }
 
 export interface FormDetails {
@@ -31,7 +31,7 @@ export interface TokenPayload {
 
 export interface CreateFormPayload {
   title: string;
-  questions: string;
+  questions: Question[];
 }
 
 export interface UpdateFormPayload {

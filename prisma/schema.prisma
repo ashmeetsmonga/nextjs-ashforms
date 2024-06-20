@@ -28,11 +28,12 @@ model User {
 model Form {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
-  questions String
+  questions Question[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String   @db.ObjectId
   responses Response[]
+
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -44,6 +45,17 @@ model Response {
   userId      String   @db.ObjectId
   answers     String
   formId      String   @db.ObjectId
+
+  form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  options String[] 
+  placeholder String 
+  title String 
+  type String
+  formId String @db.ObjectId
 
   form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
