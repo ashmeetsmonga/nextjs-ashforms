@@ -22,7 +22,13 @@ const page = ({ params }: { params: { slug: string } }) => {
     });
   }, []);
 
-  return <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="edit" id={params.slug} />;
+  return (
+    <div className="flex flex-col items-center">
+      <div className="w-full max-w-[1000px]">
+        <EditableForm formDetails={formDetails} setFormDetails={setFormDetails} mode="edit" id={params.slug} />
+      </div>
+    </div>
+  );
 };
 
 export default page;

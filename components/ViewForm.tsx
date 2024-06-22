@@ -34,20 +34,20 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails, formId, mode }) => {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-10">{formDetails.title}</h1>
-      <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="flex flex-col gap-6">
+      <h1 className="text-5xl font-bold mb-10">{formDetails.title}</h1>
+      <form className="space-y-6" onSubmit={handleSubmit}>
         {formDetails.questions.map((ques, idx) => (
           <>
             {ques.type === "text" && (
               <div className="space-y-2">
-                <p className="font-semibold">{ques.title}</p>
+                <p className="text-xl font-semibold">{ques.title}</p>
                 <Input name={idx.toString()} placeholder={ques.placeholder} />
               </div>
             )}
             {ques.type === "radio" && (
               <div className="space-y-2">
-                <p className="font-semibold">{ques.title}</p>
+                <p className="text-xl font-semibold">{ques.title}</p>
                 <RadioGroup name={idx.toString()}>
                   {ques.options?.map((option, idx) => (
                     <div key={option} className="flex gap-2 items-center">
@@ -60,7 +60,7 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails, formId, mode }) => {
             )}
             {ques.type === "checkbox" && (
               <div className="space-y-2">
-                <p className="font-semibold">{ques.title}</p>
+                <p className="text-xl font-semibold">{ques.title}</p>
                 {ques.options?.map((option, checkboxIdx) => (
                   <div key={option} className="flex gap-2 items-center">
                     <Checkbox name={idx.toString()} id={option} value={option} />

@@ -20,7 +20,13 @@ const page = ({ params }: { params: { slug: string } }) => {
     });
   }, []);
 
-  return <ViewForm formDetails={formDetails} mode="view" formId={params.slug} />;
+  return (
+    <div className="flex flex-col items-center">
+      <div className="w-full max-w-[1000px]">
+        <ViewForm formDetails={formDetails} mode="view" formId={params.slug} />
+      </div>
+    </div>
+  );
 };
 
 export default page;
