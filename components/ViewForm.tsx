@@ -42,7 +42,7 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails, formId, mode }) => {
             {ques.type === "text" && (
               <div className="space-y-2">
                 <p className="text-xl font-semibold">{ques.title}</p>
-                <Input name={idx.toString()} placeholder={ques.placeholder} />
+                <Input name={idx.toString()} placeholder={ques.placeholder} className="border-none text bg-gray-100" />
               </div>
             )}
             {ques.type === "radio" && (
