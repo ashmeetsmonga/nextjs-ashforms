@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/app/recoil/atom/userAtom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import toast from "react-hot-toast";
 
 const LoginRegisterDialog = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const LoginRegisterDialog = () => {
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const toastID = toast.loading("Logging In");
     const formData = new FormData(e.currentTarget);
     const payload: LoginPayload = {
       email: "",
@@ -34,14 +36,18 @@ const LoginRegisterDialog = () => {
     loginUser(payload)
       .then((data: any) => {
         setUserState(data.data);
-        console.log(data.data, "ashmeet");
         setIsOpen(false);
+        toast.success("Successfully Logged In", { id: toastID });
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        toast.error(e?.response?.data?.message || "Something went wrong", { id: toastID });
+      });
   };
 
   const handleRegisterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const toastID = toast.loading("Creating New User");
     const formData = new FormData(e.currentTarget);
     const payload: RegisterPayload = {
       name: "",
@@ -51,10 +57,13 @@ const LoginRegisterDialog = () => {
     for (let [key, value] of formData.entries()) payload[key as keyof RegisterPayload] = value as string;
     registerUser(payload)
       .then((data) => {
-        console.log(data);
+        toast.success("New User Created Successfully", { id: toastID });
         router.push("/forms");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        toast.error(e?.response?.data?.message || "Something went wrong", { id: toastID });
+      });
   };
 
   return (

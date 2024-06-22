@@ -15,18 +15,24 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { formAtom } from "@/app/recoil/atom/formAtom";
 import { deleteFormByID, getFormsByUserID } from "@/app/actions/formActions";
+import toast from "react-hot-toast";
 
 const DeleteAlertDialog = ({ deleteAlertDialogRef }: { deleteAlertDialogRef: any }) => {
   const [formRecoilState, setFormRecoilState] = useRecoilState(formAtom);
 
   const handleDelete = () => {
+    const toastID = toast.loading("Deleting Form");
     deleteFormByID(formRecoilState.deleteFormId)
       .then((data) => {
         getFormsByUserID().then((data: any) => {
+          toast.success("Form Deleted Successfully", { id: toastID });
           setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
         });
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        toast.error(e?.response?.data?.message || "Something went wrong", { id: toastID });
+      });
   };
 
   return (

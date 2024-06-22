@@ -8,6 +8,7 @@ import { Circle, Plus, Square, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
 import QuestionCommand from "../QuestionCommand";
+import toast from "react-hot-toast";
 
 interface EditableFormProps {
   formDetails: FormDetails;
@@ -37,6 +38,7 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
   };
 
   const handleSubmit = () => {
+    const toastID = toast.loading("Creating New Form");
     const payload: CreateFormPayload = {
       title: formDetails.title,
       questions: formDetails.questions,
@@ -44,12 +46,17 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
 
     createForm(payload)
       .then((data) => {
+        toast.success("New Form Created Successfully", { id: toastID });
         router.push("/forms");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        toast.error(e?.response?.data?.message || "Something went wrong", { id: toastID });
+      });
   };
 
   const handleUpdateSubmit = () => {
+    const toastID = toast.loading("Updating Form");
     const payload: UpdateFormPayload = {
       id: id!,
       title: formDetails.title,
@@ -60,7 +67,10 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
       .then((data) => {
         router.push("/forms");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        toast.error(e?.response?.data?.message || "Something went wrong", { id: toastID });
+      });
   };
 
   const handleDelete = (idx: number) => {
