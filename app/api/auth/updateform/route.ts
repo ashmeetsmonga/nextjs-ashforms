@@ -12,8 +12,14 @@ export async function PUT(req: NextRequest) {
     });
     for (let q of questions) {
       const newData = { ...q };
-      delete newData.id;
-      const question = await prisma.question.update({ where: { id: q.id! }, data: { ...newData } });
+      if (q.id) {
+        delete newData.id;
+        const question = await prisma.question.update({ where: { id: q.id! }, data: { ...newData } });
+      } else {
+        const question = await prisma.question.create({
+          data: { ...q, formId: form.id },
+        });
+      }
     }
     return NextResponse.json({ msg: "Form updated successfully" }, { status: 200 });
   } catch (e) {
