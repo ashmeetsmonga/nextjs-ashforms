@@ -20,11 +20,12 @@ const FormsTable = () => {
   const router = useRouter();
 
   useEffect(() => {
-    getFormsByUserID()
-      .then((data: any) => {
-        setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
-      })
-      .catch((e) => console.log(e));
+    if (!userRecoilState.showDialog)
+      getFormsByUserID()
+        .then((data: any) => {
+          setFormRecoilState((prev) => ({ ...prev, forms: data.data.forms }));
+        })
+        .catch((e) => console.log(e));
   }, [userRecoilState]);
 
   const handleDelete = (id: string) => {

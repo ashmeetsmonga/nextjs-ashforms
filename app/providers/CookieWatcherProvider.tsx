@@ -6,7 +6,7 @@ import { userAtom } from "../recoil/atom/userAtom";
 
 const CookieWatcherProvider = () => {
   const cookieRef = useRef<NodeJS.Timeout | null>(null);
-  const [_, setUserRecoilState] = useRecoilState(userAtom);
+  const [userRecoilState, setUserRecoilState] = useRecoilState(userAtom);
 
   useEffect(() => {
     if (cookieRef.current) clearInterval(cookieRef.current);
