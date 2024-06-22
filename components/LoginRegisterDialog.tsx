@@ -16,13 +16,7 @@ import toast from "react-hot-toast";
 
 const LoginRegisterDialog = () => {
   const router = useRouter();
-  const [_, setUserState] = useRecoilState(userAtom);
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setIsOpen(true);
-  }, []);
+  const [userRecoilState, setUserRecoilState] = useRecoilState(userAtom);
 
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,8 +29,7 @@ const LoginRegisterDialog = () => {
     for (let [key, value] of formData.entries()) payload[key as keyof LoginPayload] = value as string;
     loginUser(payload)
       .then((data: any) => {
-        setUserState(data.data);
-        setIsOpen(false);
+        setUserRecoilState({ ...data.data, showDialog: false });
         toast.success("Successfully Logged In", { id: toastID });
       })
       .catch((e) => {
@@ -67,7 +60,7 @@ const LoginRegisterDialog = () => {
   };
 
   return (
-    <AlertDialog open={isOpen}>
+    <AlertDialog open={userRecoilState.showDialog}>
       <AlertDialogContent>
         <Tabs defaultValue="login">
           <TabsList className="w-full">

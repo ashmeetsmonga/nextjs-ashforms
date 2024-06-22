@@ -6,5 +6,6 @@ export const userAtom = atom({
     id: "",
     name: "",
     email: "",
+    showDialog: false,
   },
 });

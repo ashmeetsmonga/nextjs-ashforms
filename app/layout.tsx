@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import RecoilProvider from "./providers/RecoilProvider";
 import ToasterProvider from "./providers/ToasterProvider";
+import CookieWatcherProvider from "./providers/CookieWatcherProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="m-20">
           <ToasterProvider />
-          <RecoilProvider>{children}</RecoilProvider>
+          <RecoilProvider>
+            <CookieWatcherProvider />
+            {children}
+          </RecoilProvider>
         </div>
       </body>
     </html>

@@ -8,7 +8,7 @@ export default function Home() {
       <h1 className="text-6xl font-bold tracking-tight text-center w-1/2 capitalize">Easier and quicker way to build forms</h1>
       <p className="mt-4 text-gray-500 text-lg">Simple form builder. Publish your form in less than 5 mins</p>
       <Link href="/forms">
-        <Button className="mt-4">Create Form</Button>
+        <Button className="mt-4">Try It Now!</Button>
       </Link>
       <div className="flex justify-center mt-16">
         <Image alt="hero image form" height={1000} width={1000} src={"/home-image.png"} className="shadow-2xl" />

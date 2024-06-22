@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { decodeToken } from "./lib/token";
 import { TokenPayload } from "./lib/types";
+import { cookies } from "next/headers";
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/api/auth")) return authMiddleware(request);
@@ -19,7 +20,9 @@ async function authMiddleware(request: NextRequest) {
     response.headers.set("userID", payload.id);
     return response;
   } catch (e: any) {
-    return NextResponse.json({ msg: "Invalid Token" }, { status: 400 });
+    const response = NextResponse.json({ msg: "Invalid Token" }, { status: 400 });
+    response.cookies.delete("token");
+    return response;
   }
 }
 

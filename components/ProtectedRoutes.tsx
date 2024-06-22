@@ -6,19 +6,18 @@ import { useRecoilState } from "recoil";
 import LoginDialog from "./LoginRegisterDialog";
 
 const ProtectedRoutes = ({ children, isValidToken, userData }: { children: React.ReactNode; isValidToken: boolean; userData: any }) => {
-  const [_, setUserRecoilState] = useRecoilState(userAtom);
-  const [showLoginRegisterForm, setShowLoginRegisterForm] = useState(!isValidToken);
+  const [userRecoilState, setUserRecoilState] = useRecoilState(userAtom);
 
   useEffect(() => {
-    if (!isValidToken) setShowLoginRegisterForm(true);
+    if (!isValidToken) setUserRecoilState({ ...userRecoilState, showDialog: true });
     else {
-      setUserRecoilState({ id: userData?.id, email: userData?.email, name: "" });
+      setUserRecoilState({ id: userData?.id, email: userData?.email, name: "", showDialog: false });
     }
   }, []);
 
   return (
     <>
-      {showLoginRegisterForm && <LoginDialog />}
+      <LoginDialog />
       {children}
     </>
   );
