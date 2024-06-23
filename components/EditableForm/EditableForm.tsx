@@ -65,6 +65,7 @@ const EditableForm: FC<EditableFormProps> = ({ formDetails, setFormDetails, mode
 
     updateForm(payload)
       .then((data) => {
+        toast.success("Form Updated Successfully", { id: toastID });
         router.push("/forms");
       })
       .catch((e) => {

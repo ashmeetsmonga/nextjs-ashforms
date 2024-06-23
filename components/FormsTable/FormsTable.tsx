@@ -36,7 +36,7 @@ const FormsTable = () => {
   return (
     <div>
       <Table className="border">
-        <TableCaption>A list of your created forms</TableCaption>
+        {!(formRecoilState?.forms?.length > 0) && <TableCaption>A list of your created forms</TableCaption>}
         <TableHeader>
           <TableRow>
             <TableHead>Id</TableHead>
