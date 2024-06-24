@@ -6,6 +6,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
 import { addResponse } from "@/app/actions/responseActions";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface ViewFormProps {
   formDetails: FormDetails;
@@ -17,6 +18,7 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails, formId, mode }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const toastID = toast.loading("Submitting Response");
     const formData = new FormData(e.currentTarget);
     const ansArray: any = [];
     for (let [key, value] of formData.entries()) {
@@ -30,7 +32,15 @@ const ViewForm: FC<ViewFormProps> = ({ formDetails, formId, mode }) => {
       formId: formId as string,
       answers: JSON.stringify(ansArray),
     };
-    addResponse(payload).then((data) => router.push("/"));
+    addResponse(payload)
+      .then((data) => {
+        toast.success("Response Submitted Successfully", { id: toastID });
+        router.push("/forms");
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error(e?.response?.data?.message || "Something went wrong", { id: toastID });
+      });
   };
 
   return (
