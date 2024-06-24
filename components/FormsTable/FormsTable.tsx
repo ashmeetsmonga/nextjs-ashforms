@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ClipboardType, FilePenLine, Trash2 } from "lucide-react";
+import { ClipboardType, FileBarChart2, FilePenLine, Trash2 } from "lucide-react";
 import { getFormsByUserID } from "@/app/actions/formActions";
 import { formatDate } from "@/lib/utils";
 import DeleteAlertDialog from "../DeleteAlertDialog";
@@ -57,6 +57,7 @@ const FormsTable = () => {
                 <CompactToolTip component={<FilePenLine onClick={() => router.push(`/forms/${form.id}`)} />} title="Edit" />
                 <CompactToolTip component={<Trash2 onClick={() => handleDelete(form.id)} />} title="Delete" />
                 <CompactToolTip component={<ClipboardType onClick={() => router.push(`/view/${form.id}`)} />} title="View" />
+                <CompactToolTip component={<FileBarChart2 onClick={() => router.push(`/responses/${form.id}`)} />} title="Responses" />
               </TableCell>
             </TableRow>
           ))}
